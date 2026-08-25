@@ -7,16 +7,22 @@ export const Route = createFileRoute('/blog')({
 
 function BlogPage() {
   useEffect(() => {
-    const script = document.createElement('script')
-    script.src =
-      'https://app.trysoro.com/api/embed/3cbf4def-893e-42b4-be12-378be262ac2b'
-    script.defer = true
-    document.body.appendChild(script)
+    const existingScript = document.querySelector(
+      'script[src*="app.trysoro.com/api/embed"]'
+    )
 
-    return () => {
-      script.remove()
+    if (!existingScript) {
+      const script = document.createElement('script')
+      script.src =
+        'https://app.trysoro.com/api/embed/3cbf4def-893e-42b4-be12-378be262ac2b'
+      script.async = true
+      document.body.appendChild(script)
     }
   }, [])
 
-  return <div id="soro-blog"></div>
+  return (
+    <div style={{ minHeight: '100vh', padding: '20px' }}>
+      <div id="soro-blog"></div>
+    </div>
+  )
 }
